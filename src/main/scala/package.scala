@@ -12,4 +12,6 @@ package object multisets {
 
     map
   }
+
+  implicit def kleisli[X,Y](f: X => Multiset[Y]): Kleisli[X,Y] = Kleisli(f)
 }

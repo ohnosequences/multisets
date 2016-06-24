@@ -20,6 +20,6 @@ class Multisets extends FunSuite {
       case _            => multisetFrom(Seq())
     }
 
-    println { (Kleisli(bookCopies) andThen bookWordCounts)( () ) }
+    println { (bookCopies >=> bookWordCounts)( () ) }
   }
 }
