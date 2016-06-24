@@ -4,13 +4,22 @@ import org.scalatest.FunSuite
 
 import ohnosequences.multisets._
 
-class MultisetsTest extends FunSuite {
+class Multisets extends FunSuite {
 
-  test("Dummy test coming from the template") {
+  test("Basic construction") {
 
-    assert(
+    val wordCounts = multisetFrom( Seq("hola" -> 12L, "buh" -> 5L, "tralara" -> 7L) )
+    val bookCopies: Unit => Multiset[String] = _ => multisetFrom( Seq("La Ilíada" -> 32L, "La Eneida" -> 421L ) )
 
-      12 === 12
-    )
+    val bookWordCounts: String => Multiset[String] = {
+
+      case "La Ilíada"  => multisetFrom( Seq("hola" -> 12L, "buh" -> 5L, "tralara" -> 7L) )
+
+      case "La Eneida"  => multisetFrom( Seq("hola" -> 3L, "bien" -> 43L ) )
+
+      case _            => multisetFrom(Seq())
+    }
+
+    println { (Kleisli(bookCopies) andThen bookWordCounts)( () ) }
   }
 }
