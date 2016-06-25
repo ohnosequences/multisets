@@ -12,13 +12,13 @@ public abstract class FastMap<K> {
       return new KolobokeFastMap<K>(expectedSize);
   }
 
-  // public abstract void justPut(K key, long value);
+  public abstract void justPut(K key, long value);
 
   public abstract long addValue(K key, long addition);
 
   public abstract long getLong(K key);
 
-  abstract int size();
+  public abstract int size();
 
   abstract long merge(
     K key,
@@ -26,7 +26,7 @@ public abstract class FastMap<K> {
     LongBinaryOperator remappingFunction
   );
 
-  abstract void forEach(ObjLongConsumer<? super K> action);
+  abstract public void forEach(ObjLongConsumer<? super K> action);
 
   public <X> FastMap<X> flatMap(Function<K,FastMap<X>> f) {
 
