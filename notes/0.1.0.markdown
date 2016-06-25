@@ -1,0 +1,5 @@
+First release, with minimal functionality:
+
+1. Kleisli composition
+2. build from a seq of (value, count)
+3. ⊗ and ⊕ on Kleisli
