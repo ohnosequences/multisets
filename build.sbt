@@ -2,7 +2,7 @@ Nice.scalaProject
 
 name          := "multisets"
 organization  := "ohnosequences"
-description   := "multisets project"
+description   := "A supposedly fast implementation of multisets based on Koloboke maps"
 
 bucketSuffix  := "era7.com"
 
