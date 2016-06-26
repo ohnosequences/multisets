@@ -19,6 +19,8 @@ package object multisets {
         m
       }
     }
+
+    def empty[X]: Multiset[X] = java.FastMap.withExpectedSize(0)
   }
 
   def multisetFrom[X](elementCounts: Seq[(X,Long)]): Multiset[X] = {
@@ -35,5 +37,4 @@ package object multisets {
   def swap[A,B]: Kleisli[(A,B), (B,A)] = Kleisli { case (a,b) => unit( (b,a) ) }
 
   implicit def kleisli[X,Y](f: X => Multiset[Y]): Kleisli[X,Y] = Kleisli(f)
-
 }
