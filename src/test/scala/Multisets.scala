@@ -43,4 +43,11 @@ class Multisets extends FunSuite {
 
     assert { uuAgain == uu }
   }
+
+  test("cardinality") {
+
+    val u = Multiset.fromElements( Seq("hola", "hola", "buh", "feo", "lalala", "hola", "buh") )
+
+    assert { u.size == 7 }
+  }
 }

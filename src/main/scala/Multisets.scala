@@ -14,8 +14,6 @@ trait AnyMultiset extends Any {
 case class Multiset[+X] private[multisets] (val jMap: java.FastMap[X @uv]) extends AnyVal with AnyMultiset {
 
   type Elements = X @uv
-
-  def size: Int = jMap.size
 }
 
 case class MultisetOps[E](val jMap: java.FastMap[E]) {
@@ -27,7 +25,7 @@ case class MultisetOps[E](val jMap: java.FastMap[E]) {
 
   def ++(other: Multiset[E]): Multiset[E] = Multiset {
 
-    val (small, big) = if( other.size < jMap.size ) ( other.jMap, jMap ) else ( jMap, other.jMap )
+    val (small, big) = if( other.jMap.size < jMap.size ) ( other.jMap, jMap ) else ( jMap, other.jMap )
 
     val union = java.FastMap.withExpectedSize[E]( big.size + ( (big.size - small.size) / 2 ) )
 
@@ -36,7 +34,21 @@ case class MultisetOps[E](val jMap: java.FastMap[E]) {
     big
   }
 
+  def fold[O](init: O)(f: (O,E) => O): O = if (jMap.size == 0) init else {
+
+    var out = init
+
+    @annotation.tailrec
+    def nTimes(accum: O, e: E, times: Long): O = if (times == 0) accum else nTimes(f(accum, e), e, times - 1)
+
+    jMap.forEach( { (e: E, n: Long) => { out = nTimes(out, e, n) } }.asJava )
+
+    out
+  }
+
   def flatMap[O](f: E => Multiset[O]): Multiset[O] = Multiset { jMap flatMap { e: E => f(e).jMap }.asJava }
+
+  def size: Long = fold(0L){ (n,_) => n + 1 }
 }
 
 case object Multiset {
@@ -98,7 +110,7 @@ case class Kleisli[X,Y](val function: X => Multiset[Y]) extends AnyVal {
       val fa: Multiset[Y] = function(x)
       val gb: Multiset[W] = g(y)
 
-      val map = java.FastMap.withExpectedSize[(Y,W)](fa.size * gb.size)
+      val map = java.FastMap.withExpectedSize[(Y,W)](fa.jMap.size * gb.jMap.size)
 
       fa.jMap.forEach( { (y: Y, n: Long) => {
             gb.jMap.forEach( { (w: W, m: Long) => map.addValue((y,w), m*n): Unit }.asJava )
