@@ -13,3 +13,7 @@ libraryDependencies ++= Seq(
 ) ++ testDependencies
 
 val testDependencies = Seq("org.scalatest" %% "scalatest" % "2.2.6" % Test)
+
+wartremoverExcluded ++= Seq(
+  baseDirectory.value/"src"/"main"/"scala"/"Multisets.scala"
+)
