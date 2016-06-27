@@ -49,5 +49,7 @@ class Multisets extends FunSuite {
     val u = Multiset.fromElements( Seq("hola", "hola", "buh", "feo", "lalala", "hola", "buh") )
 
     assert { u.size == 7 }
+
+    assert { u === u.fold(Multiset.empty[String])( _ :+ (_, 1L) ) }
   }
 }

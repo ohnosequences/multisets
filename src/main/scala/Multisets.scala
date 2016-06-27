@@ -21,7 +21,7 @@ case class MultisetOps[E](val jMap: java.FastMap[E]) {
   // NOTE this is safe as jMap will return 0 if not present
   def apply(elem: E): Long = jMap getLong elem
 
-  def +(elem: E, n: Long): Multiset[E] = Multiset( if ( n > 0 ) jMap.withAddedValue(elem, n) else jMap )
+  def :+(elem: E, n: Long): Multiset[E] = Multiset( if ( n > 0 ) jMap.withAddedValue(elem, n) else jMap )
 
   def ++(other: Multiset[E]): Multiset[E] = Multiset {
 
