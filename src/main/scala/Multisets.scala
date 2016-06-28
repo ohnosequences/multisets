@@ -67,6 +67,8 @@ case object Multiset {
     }
   }
 
+  def flatten[Z]: Multiset[Multiset[Z]] => Multiset[Z] = { zszs => zszs flatMap { zs => zs } } 
+
   def from[X](elementCounts: Seq[(X,Long)]): Multiset[X] = {
 
     val map = java.FastMap.withExpectedSize[X](elementCounts.size)
