@@ -1,0 +1,5 @@
+Still very much WIP.
+
+- make multisets covariant, add ops as a typeclass
+- add fold, implement size in terms of it
+- add flatten in terms of flatMap
